@@ -30,7 +30,7 @@ const MILLISECONDS_BETWEEN_RETRIES = 1000 * 60 * 15; // 15 minutes
 const getLogTimestamp = () => new Date().toISOString().substring(0, 19);
 const log = (message) => console.log(`${getLogTimestamp()}: ${message}`);
 
-const { Web3 } = require("web3");
+const Web3 = require("web3");
 const web3 = new Web3(POLYGON_RPC_HOST);
 const contract = new web3.eth.Contract(ABI, AAVEGOTCHI_DIAMOND_ADDRESS);
 
