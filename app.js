@@ -30,6 +30,7 @@ const MILLISECONDS_BETWEEN_RETRIES = 1000 * 60 * 15; // 15 minutes
 const getLogTimestamp = () => new Date().toISOString().substring(0, 19);
 const log = (message) => console.log(`${getLogTimestamp()}: ${message}`);
 
+const axios = require("axios");
 const Web3 = require("web3");
 const web3 = new Web3(POLYGON_RPC_HOST);
 const contract = new web3.eth.Contract(ABI, AAVEGOTCHI_DIAMOND_ADDRESS);
@@ -39,9 +40,9 @@ const convertWeiToMatic = (wei) => wei / 10 ** 18;
 
 const getCurrentGasPrices = () =>
   new Promise((resolve, reject) => {
-    const fetch = require("node-fetch");
-    fetch(POLYGON_GAS_STATION_HOST)
-      .then((response) => response.json())
+    axios
+      .get(POLYGON_GAS_STATION_HOST)
+      .then((response) => response.data)
       .then((gasData) => {
         if (gasData["error"])
           reject(
@@ -56,7 +57,8 @@ const getCurrentGasPrices = () =>
             )
           );
         else resolve(gasData);
-      });
+      })
+      .catch((error) => reject(error));
   });
 
 const createPetTransaction = async (idsOfGotchisToPet) => ({
