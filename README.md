@@ -49,9 +49,9 @@ A dockerfile is included if you want to run the script inside a Docker container
 
 Build the image (from project root):
 ```
-docker build -t gotchi-petter .
+sudo docker build -t gotchi-petter:latest .
 ```
 Run the container
 ```
-docker run -d --restart unless-stopped gotchi-petter
+sudo docker run -d --restart unless-stopped --name gotchi-petter gotchi-petter:latest
 ```
