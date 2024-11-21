@@ -1,9 +1,14 @@
 // configuration for running in production with PM2
-// see: https://pm2.keymetrics.io/docs/usage/application-declaration/
 module.exports = {
-  apps : [{
-    name   : "gotchi-petter",
-    script : "./app.js",
-    restart_delay : 900000 // wait 15 minutes to restart if process exits - to prevent network spamming
+  apps: [{
+    name: "gotchi-petter",
+    script: "./app.js",
+    restart_delay: 900000, // 15 minutes
+    max_restarts: 5,       // Prevent infinite restarts if there's a critical issue
+    env: {
+      NODE_ENV: "production"
+    },
+    log_date_format: "YYYY-MM-DD HH:mm:ss Z", // Standardized timestamp format
+    exp_backoff_restart_delay: 100 // Gradually increase delay between restarts if failing
   }]
 }
